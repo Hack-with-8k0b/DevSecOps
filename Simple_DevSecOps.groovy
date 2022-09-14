@@ -16,7 +16,7 @@ node{
 }
     }
     stage('Deployingment on the server'){
-        def dockerrun = 'docker run -p 8000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest'
+        def dockerrun = 'docker run -p 7000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest'
         def dockerrm = 'docker container rm -f bkob-server'
         sshagent(['newsshpassword']) {
      sh "ssh -o StrictHostKeyChecking=no ec2-user@13.233.78.186 ${dockerrm}"
