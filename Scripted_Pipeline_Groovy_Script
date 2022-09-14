@@ -1,6 +1,6 @@
 node{
     stage('pulling the source code'){
-        git 'https://github.com/Hack-with-8k0b/cloudknowledge.git'
+        git 'https://github.com/Hack-with-8k0b/DevSecOps.git'
     }
     stage('Building Docker image'){
     
