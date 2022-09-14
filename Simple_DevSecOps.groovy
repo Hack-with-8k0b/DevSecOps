@@ -18,9 +18,11 @@ node{
     stage('Deployingment on the server'){
         def dockerrun = 'docker run -p 8000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest'
         def dockerrm = 'docker container rm -f bkob-server'
+        def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
         sshagent(['newsshpassword']) {
-     sh "ssh -o StrictHostKeyChecking=no ec2-user@13.233.78.186 ${dockerrm}"
-     sh "ssh -o StrictHostKeyChecking=no ec2-user@13.233.78.186 ${dockerrun}"
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@13.233.78.186 ${dockerrm}"
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@13.233.78.186 ${dockerimagerm}"
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@13.233.78.186 ${dockerrun}"
 }
     }
 }
