@@ -7,4 +7,18 @@ node{
         sh 'docker image tag  $JOB_NAME:v1.$BUILD_ID nbharathkumara/$JOB_NAME:v1.$BUILD_ID'
         sh 'docker image tag  $JOB_NAME:v1.$BUILD_ID nbharathkumara/$JOB_NAME:latest'
     }
+    stage('Pushing into Docker hub'){
+        withCredentials([string(credentialsId: 'dockerpass', variable: 'dockerpassword')]) {
+            sh 'docker login -u nbharathkumara -p ${dockerpassword}'
+            sh 'docker image push nbharathkumara/$JOB_NAME:v1.$BUILD_ID'
+            sh 'docker image push nbharathkumara/$JOB_NAME:latest'
+            sh 'docker image rmi $JOB_NAME:v1.$BUILD_ID nbharathkumara/$JOB_NAME:v1.$BUILD_ID nbharathkumara/$JOB_NAME:latest '
+}
+    }
+    stage('Deployingment on the server'){
+        def dockerrun = 'docker run -p 8000:80 -d --name bkob-server2 nbharathkumara/$JOB_NAME:latest'
+        sshagent(['newsshpassword']) {
+     sh "ssh -o StrictHostKeyChecking=no ec2-user@13.233.78.186 ${dockerrun}"
+}
+    }
 }
