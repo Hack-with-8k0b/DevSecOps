@@ -39,7 +39,7 @@ pipeline{
             steps{
             sshagent(['newsshpassword']) {
             sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerimagerm}"
+ //           sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerimagerm}"
             sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
                 }
             }
