@@ -30,12 +30,23 @@ pipeline{
             }
             }
         }
-        stage('Deploying the Webserver '){
+        stage('Deploying the Webserver'){
             steps{
             sshagent(['newsshpassword']) {
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
+                script{
+                    if (sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 docker container inspect bkob-server"){
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
+                    } else {
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"             
+                    }
+
+                }
+
+
+            //sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
             //sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerimagerm}"
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
+            //sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
                 }
             }
         }
