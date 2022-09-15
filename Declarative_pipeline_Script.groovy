@@ -1,6 +1,11 @@
-def dockerrm = 'docker container rm -f bkob-server'
-def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
 def dockerrun = 'docker run -p 8000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest'
+def dockerrm = "docker container rm -f bkob-server &>/dev/null && echo 'Removed old container'"
+def dockerimagerm = "docker image rmi nbharathkumara/$JOB_NAME &>/dev/null && echo 'Removed old container'"
+
+//def dockerrm = 'docker container rm -f bkob-server'
+//def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
+//docker rm -f container_name &>/dev/null && echo 'Removed old container'
+
 
 pipeline{
 
@@ -30,23 +35,12 @@ pipeline{
             }
             }
         }
-        stage('Deploying the Webserver'){
+        stage('Deploying the Webserver '){
             steps{
             sshagent(['newsshpassword']) {
-                script{
-                    if (sh 'ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 docker container inspect bkob-server') {
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
-                    } else {
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"             
-                    }
-
-                }
-
-
-            //sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
-            //sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerimagerm}"
-            //sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerimagerm}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
                 }
             }
         }
