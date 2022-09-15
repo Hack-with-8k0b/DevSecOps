@@ -1,6 +1,6 @@
 def dockerrun = 'docker run -p 8000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest'
-def dockerrm = 'docker container rm -f bkob-server &>/dev/null '
-def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME &>/dev/null '
+def dockerrm = 'docker container rm -f bkob-server &>/dev/null'
+def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME &>/dev/null'
 
 //def dockerrm = 'docker container rm -f bkob-server'
 //def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
