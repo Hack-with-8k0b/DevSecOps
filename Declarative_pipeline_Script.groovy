@@ -23,7 +23,7 @@ pipeline{
             sh 'docker image push nbharathkumara/$JOB_NAME:v1.$BUILD_ID'
             sh 'docker image push nbharathkumara/$JOB_NAME:latest'
             sh 'docker image rmi $JOB_NAME:v1.$BUILD_ID nbharathkumara/$JOB_NAME:v1.$BUILD_ID nbharathkumara/$JOB_NAME:latest '
-
+            }
             }
 
         }
