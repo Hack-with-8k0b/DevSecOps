@@ -34,7 +34,7 @@ pipeline{
             steps{
             sshagent(['newsshpassword']) {
                 script{
-                    if (sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 docker container inspect bkob-server"){
+                    if (sh 'ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 docker container inspect bkob-server') {
                         sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
                         sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
                     } else {
