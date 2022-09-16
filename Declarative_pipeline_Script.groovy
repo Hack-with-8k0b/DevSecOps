@@ -1,6 +1,7 @@
 def dockerrun = 'docker run -p 8000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest'
 def dockerrm = 'docker container rm -f bkob-server'
-def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
+//def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
+def dockerimagerm = 'docker system -a -f'
 
 //def dockerrm = 'docker container rm -f bkob-server'
 //def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
@@ -39,7 +40,7 @@ pipeline{
             steps{
             sshagent(['newsshpassword']) {
             sh "ssh -o StrictHostKeyChecking=no ec2-user@43.205.254.135 ${dockerrm}"
- //           sh "ssh -o StrictHostKeyChecking=no ec2-user@43.205.254.135 ${dockerimagerm}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@43.205.254.135 ${dockerimagerm}"
             sh "ssh -o StrictHostKeyChecking=no ec2-user@43.205.254.135 ${dockerrun}"
                 }
             }
