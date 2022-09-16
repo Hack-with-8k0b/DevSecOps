@@ -13,7 +13,7 @@ pipeline{
     agent any
 
     stages{
-        stage('Getting Source Code from Git '){
+        stage('Getting Source Code from Git'){
             steps{
                 git branch: 'main', url: 'https://github.com/Hack-with-8k0b/DevSecOps.git'
             }
