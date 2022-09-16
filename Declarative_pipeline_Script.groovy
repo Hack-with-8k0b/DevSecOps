@@ -19,7 +19,7 @@ pipeline{
             }
         }
 
-        stage('Building Docker Images'){
+        stage('Building Docker Images '){
             steps{
                 sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
                 sh 'docker image tag $JOB_NAME:v1.$BUILD_ID nbharathkumara/$JOB_NAME:v1.$BUILD_ID'
