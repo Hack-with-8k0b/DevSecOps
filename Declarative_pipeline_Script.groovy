@@ -1,12 +1,7 @@
-def dockerrun = 'docker run -p 8000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest'
 def dockerrm = 'docker container rm -f bkob-server'
-//def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
 def dockerimagerm = 'docker system prune -a -f'
-
-//def dockerrm = 'docker container rm -f bkob-server'
+def dockerrun = 'docker run -p 8000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest'
 //def dockerimagerm = 'docker image rmi nbharathkumara/$JOB_NAME'
-//docker rm -f container_name &>/dev/null && echo 'Removed old container'
-
 
 pipeline{
 
@@ -19,7 +14,7 @@ pipeline{
             }
         }
 
-        stage('Building Docker Images '){
+        stage('Building Docker Images'){
             steps{
                 sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
                 sh 'docker image tag $JOB_NAME:v1.$BUILD_ID nbharathkumara/$JOB_NAME:v1.$BUILD_ID'
