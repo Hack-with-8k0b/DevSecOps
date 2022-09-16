@@ -38,9 +38,9 @@ pipeline{
         stage('Deploying the Webserver '){
             steps{
             sshagent(['newsshpassword']) {
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrm}"
- //           sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerimagerm}"
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.169.57 ${dockerrun}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@43.205.254.135 ${dockerrm}"
+ //           sh "ssh -o StrictHostKeyChecking=no ec2-user@43.205.254.135 ${dockerimagerm}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@43.205.254.135 ${dockerrun}"
                 }
             }
         }
