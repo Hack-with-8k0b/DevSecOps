@@ -1,13 +1,26 @@
-name: example
+name: simple_pipeline
 
 on: push
 
 jobs:
-  job_1:
+  Build:
     runs-on: ubuntu-latest
     
     steps:
       
-      - name: print path variables
+      - name: Check out Code
+        uses: actions/checkout@v2
+
+      - name: echoing the file name
+        run: echo $GITHUB_WORKFLOW
         run: echo $GITHUB_RUN_ID
-        #test
+      
+      - name: Building Docker Images
+        run: docker image build -t $GITHUB_WORKFLOW:v$GITHUB_RUN_ID . 
+        run: docker image tag $GITHUB_WORKFLOW:v$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:v$GITHUB_RUN_ID
+        run: docker image tag $GITHUB_WORKFLOW:v$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
+      
+      - name: listing the files
+        run: ls -la
+
+
