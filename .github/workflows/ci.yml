@@ -5,12 +5,14 @@ on: push
 jobs:
   job_1:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: My First step
-        run: echo "This is the first step of my Job." 
-      - name: My Second Step
-        run: echo "This is the Second step of my Job."
-      - name: Checking system details
-        run: uname -a
       - name: list files
         run: ls -la
+      
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      
+      - name: list files
+        run: ls -lR
+        
