@@ -3,7 +3,7 @@ name: simple_pipeline
 on: push
 
 jobs:
-  Build_&_Push:
+  Build and Push:
 
     runs-on: ubuntu-latest
     
@@ -31,7 +31,7 @@ jobs:
 
   Deploy:      
   
-    needs: [Build_&_Push]
+    needs: [Build and Push]
     
     runs-on: ubuntu-latest
     
