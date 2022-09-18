@@ -8,3 +8,9 @@ jobs:
     steps:
       - name: My First step
         run: echo "This is the first step of my Job." 
+      - name: My Second Step
+        run: echo "This is the Second step of my Job."
+      - name: Checking system details
+        run: uname -a
+      - name: list files
+        run: ls -la
