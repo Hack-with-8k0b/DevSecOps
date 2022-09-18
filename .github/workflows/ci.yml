@@ -23,7 +23,7 @@ jobs:
           docker image tag $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
       
       - name: Pushing Image onto Docker Hub
-        run: 
+        run: |
           docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
           docker image push nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID
           docker image push nbharathkumara/$GITHUB_WORKFLOW:latest
