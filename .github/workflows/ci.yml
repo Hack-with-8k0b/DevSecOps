@@ -8,7 +8,6 @@ jobs:
     
     steps:
       
-<<<<<<< HEAD
       - name: Check out Code
         uses: actions/checkout@v2
 
@@ -31,9 +30,6 @@ jobs:
           docker image rmi $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
 
       - name: Deploying the Docker
-=======
-      - name: connecting to ssh server
->>>>>>> b0641597e9fd3281a1dea033cde5f8860a854a2a
         env: 
           PRIVATE_KEY: ${{secrets.SSH_KEY}}
           HOSTNAME: ${{secrets.SSH_HOST}}
@@ -42,16 +38,7 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
-<<<<<<< HEAD
             docker container rm -f bkob-server
             docker system prune -a -f
-            docker run -p 8000:80 -d --name bkob-server nbharathkumara/$GITHUB_WORKFLOW:latest
-            
+            docker run -p 80:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest
           '
-=======
-            id
-            ls -la
-            pwd
-          '
-          
->>>>>>> b0641597e9fd3281a1dea033cde5f8860a854a2a
