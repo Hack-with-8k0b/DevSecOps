@@ -1,10 +1,5 @@
 name: simple_pipeline
 
-env: |
-  Filename: $GITHUB_WORKFLOW:$GITHUB_RUN_ID
-  File: $GITHUB_WORKFLOW
-  Reponame: nbharathkumara
-
 on: push
 
 jobs:
@@ -13,12 +8,20 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+
+      env: |
+        Filename: $GITHUB_WORKFLOW:$GITHUB_RUN_ID
+        File: $GITHUB_WORKFLOW
+        Reponame: nbharathkumara
+
       - name: Check out Code
         uses: actions/checkout@v2
 
       - name: echoing the file name
-        run: 
+        run: |
           echo $Filename
+          echo $File
+          echo $Reponame
       
       - name: Building Docker Images
         run: |
