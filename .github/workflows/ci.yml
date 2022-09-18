@@ -9,10 +9,12 @@ jobs:
     steps:
       
       - name: connecting to ssh server
-        uses: appleboy/ssh-action@master
-        with: 
-          host: 'ec2-3-110-114-227.ap-south-1.compute.amazonaws.com'
-          username: ec2-user
-          key: ${{secrets.SSH_KEY}}
-          script:
-            ifconfig
+        env: 
+          PRIVATE_KEY: ${{secrets.SSH_KEY}}
+          HOSTNAME: ${{secrets.SSH_HOST}}
+          USER_NAME: ${{secrets.SSH_USER}}
+          
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} ifconfig
+          
