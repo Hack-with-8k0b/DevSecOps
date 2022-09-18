@@ -23,6 +23,11 @@ jobs:
           docker image tag $GITHUB_WORKFLOW:v$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
       
       - name: listing the files
-        run: ls -la
+        run: docker images
+      
+      - name: Display Creds
+        run: |
+          echo ${{secrets.DOCKER_USER}}
+          echo ${{secrets.DOCKER_PASSWORD}}
 
 
