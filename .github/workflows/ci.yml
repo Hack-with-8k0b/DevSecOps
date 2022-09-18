@@ -13,6 +13,6 @@ jobs:
         with: 
           host: ec2-3-110-114-227.ap-south-1.compute.amazonaws.com
           username: ec2-user
-          key: ${{SSH_KEY}}
+          key: ${{secrets.SSH_KEY}}
           script:
             ifconfig
