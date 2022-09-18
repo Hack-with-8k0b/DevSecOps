@@ -40,5 +40,9 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
             docker container rm -f bkob-server
             docker system prune -a -f
+<<<<<<< HEAD
             docker run -p 80:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest
+=======
+            docker run -p 8000:80 -d --name bkob-server nbharathkumara/$JOB_NAME:latest
+>>>>>>> 6889832657463383e5af6e584c62403e11999018
           '
