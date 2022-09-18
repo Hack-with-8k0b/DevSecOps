@@ -9,4 +9,4 @@ jobs:
     steps:
       
       - name: print path variables
-        run: echo $GITHUB_REPOSITORY_OWNER
+        run: echo $GITHUB_RUN_ID
