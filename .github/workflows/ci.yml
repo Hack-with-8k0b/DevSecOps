@@ -13,24 +13,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: echoing the file name
-        env:
-          Filename: $GITHUB_WORKFLOW:$GITHUB_RUN_ID
-          File: $GITHUB_WORKFLOW
-          Reponame: nbharathkumara
-
-        run: |
-          echo $Filename
-          echo $File
-          echo $Reponame
-      
+        run: echo $GITHUB_WORKFLOW:$GITHUB_RUN_ID
+        
       - name: Building Docker Images
         run: |
-          docker image build -t $Filename . 
-          docker image tag $Filename $Reponame/$Filename
-          docker image tag $Filename $Reponame/$File:latest
+          docker image build -t $GITHUB_WORKFLOW:$GITHUB_RUN_ID . 
+          docker image tag $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID
+          docker image tag $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
 
   Push:
-    needs: Build
+    needs: [Build]
     
     runs-on: ubuntu-latest
 
@@ -39,13 +31,13 @@ jobs:
       - name: Pushing Image onto Docker Hub
         run: |
           docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
-          docker image push $Reponame/$Filename
-          docker image push $Reponame/$File:latest
-          docker image rmi $Filename $Reponame/$Filename $Reponame/$File:latest
+          docker image push nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID
+          docker image push nbharathkumara/$GITHUB_WORKFLOW:latest
+          docker image rmi $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
 
   Deploy:      
   
-    needs: Push
+    needs: [Push]
     
     runs-on: ubuntu-latest
     
@@ -62,5 +54,5 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
             docker container rm -f bkob-server
             docker system prune -a -f
-            docker run -p 80:80 -d --name bkob-server $Reponame/$File:latest
+            docker run -p 80:80 -d --name bkob-server nbharathkumara/$GITHUB_WORKFLOW:latest
             '
