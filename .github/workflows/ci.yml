@@ -2,7 +2,7 @@ name: simple_pipeline
 
 on: push
 
-env:
+env: |
   Filename: $GITHUB_WORKFLOW:$GITHUB_RUN_ID
   File: $GITHUB_WORKFLOW
   Reponame: nbharathkumara
