@@ -9,4 +9,4 @@ jobs:
     steps:
       
       - name: print path variables
-        run: echo ${{id}}
+        run: echo ${{GITHUB_ACTION}}
