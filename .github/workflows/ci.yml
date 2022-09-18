@@ -21,12 +21,28 @@ jobs:
           docker image tag $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID
           docker image tag $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
       
+  Push:
+
+      needs: Build
+  
+      runs-on: ubuntu-latest
+    
+    steps:
+
       - name: Pushing Image onto Docker Hub
         run: |
           docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
           docker image push nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID
           docker image push nbharathkumara/$GITHUB_WORKFLOW:latest
           docker image rmi $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
+
+  Deploy:
+
+      needs: Push
+
+      runs-on: ubuntu-latest
+
+      steps:
 
       - name: Deploying the Docker
         env: 
