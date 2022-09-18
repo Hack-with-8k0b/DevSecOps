@@ -9,6 +9,7 @@ jobs:
     steps:
       
       - name: connecting to ssh server
+        uses: appleboy/ssh-action@master
         with: 
           host: ec2-3-110-114-227.ap-south-1.compute.amazonaws.com
           username: ec2-user
