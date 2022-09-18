@@ -1,12 +1,45 @@
-name: example
+name: simple_pipeline
 
 on: push
 
 jobs:
-  job_1:
+  Build:
     runs-on: ubuntu-latest
     
     steps:
       
-      - name: print path variables
-        run: echo ${{GITHUB_ACTION}}
+      - name: Check out Code
+        uses: actions/checkout@v2
+
+      - name: echoing the file name
+        run: |
+          echo $GITHUB_WORKFLOW
+          echo $GITHUB_RUN_ID
+      
+      - name: Building Docker Images
+        run: |
+          docker image build -t $GITHUB_WORKFLOW:$GITHUB_RUN_ID . 
+          docker image tag $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID
+          docker image tag $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
+      
+      - name: Pushing Image onto Docker Hub
+        run: |
+          docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
+          docker image push nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID
+          docker image push nbharathkumara/$GITHUB_WORKFLOW:latest
+          docker image rmi $GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
+
+      - name: Deploying the Docker
+        env: 
+          PRIVATE_KEY: ${{secrets.SSH_KEY}}
+          HOSTNAME: ${{secrets.SSH_HOST}}
+          USER_NAME: ${{secrets.SSH_USER}}
+          
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+            docker container rm -f bkob-server
+            docker system prune -a -f
+            docker run -p 8000:80 -d --name bkob-server nbharathkumara/$GITHUB_WORKFLOW:latest
+            
+          '
