@@ -10,8 +10,6 @@ jobs:
       
       - name: Check out Code
         uses: actions/checkout@v2
-        env: 
-          filename: $GITHUB_WORKFLOW:$GITHUB_RUN_ID
 
       - name: echoing the file name
         run: |
@@ -20,11 +18,11 @@ jobs:
       
       - name: Building Docker Images
         run: |
-          docker image build -t $filename . 
-          docker image tag $filename nbharathkumara/$filename
-          docker image tag $filename nbharathkumara/$GITHUB_WORKFLOW:latest
+          docker image build -t $GITHUB_WORKFLOW:v$GITHUB_RUN_ID . 
+          docker image tag $GITHUB_WORKFLOW:v$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:v$GITHUB_RUN_ID
+          docker image tag $GITHUB_WORKFLOW:v$GITHUB_RUN_ID nbharathkumara/$GITHUB_WORKFLOW:latest
       
       - name: listing the files
-        run: docker images
+        run: ls -la
 
 
