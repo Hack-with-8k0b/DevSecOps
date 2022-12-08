@@ -1,0 +1,26 @@
+name: Infra Scan
+
+on:
+  workflow_dispatch:
+  
+jobs:
+
+  build-and-scan:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+      
+#      - name: Build the image
+#        run: docker build -t bkob .
+      
+      - name: Check the files 
+        run: ls -la
+        
+  scan:
+    uses: kumar-b-pearson/PISO-poc/.github/workflows/twistcli-scan.yml@main
+    with:
+      image_name: bkob
+    secrets: inherit
