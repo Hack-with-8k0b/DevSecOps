@@ -1,6 +1,7 @@
 name: simple_pipeline
 
-on: push
+on: 
+  workflow_dispatch:
 
 jobs:
   Build:
